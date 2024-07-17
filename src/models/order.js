@@ -1,47 +1,93 @@
-import { DataTypes } from "sequelize";
+import {DataTypes} from 'sequelize';
 
 export const createOrderModel = async (sequelize) => {
     const Order = sequelize.define(
-        "order",
+        'order',
         {
             id: {
                 type: DataTypes.INTEGER,
                 primaryKey: true,
                 autoIncrement: true,
             },
-            name: {
-                type: DataTypes.STRING,
-            },
-            phoneNumber: {
-                type: DataTypes.STRING,
-            },
-            gender: {
+            status: {
                 type: DataTypes.STRING,
             },
             date: {
-                type: DataTypes.DATEONLY,
+                type: DataTypes.DATE,
             },
-            userApply: {
-                type: DataTypes.ARRAY(DataTypes.STRING),
+            id_employee: {
+                type: DataTypes.INTEGER,
+                allowNull: true,
+                references: {
+                    model: {
+                        schema: 'public',
+                        tableName: 'employee',
+                    }
+                },
+                key: 'id'
             },
-            billPrice: {
+            id_client: {
+                type: DataTypes.INTEGER,
+                allowNull: true,
+                references: {
+                    model: {
+                        schema: 'public',
+                        tableName: 'client',
+                    }
+                },
+                key: 'id'
+            },
+            id_product: {
+                type: DataTypes.INTEGER,
+                allowNull: true,
+                references: {
+                    model: {
+                        schema: 'public',
+                        tableName: 'product',
+                    }
+                },
+                key: 'id'
+            },
+
+            id_voucher: {
+                type: DataTypes.INTEGER,
+                allowNull: true,
+                references: {
+                    model: {
+                        schema: 'public',
+                        tableName: 'voucher',
+                    }
+                },
+                key: 'id'
+            },
+            code: {
                 type: DataTypes.STRING,
             },
-            pathologicalGroup: {
+            zaloID: {
                 type: DataTypes.STRING,
             },
-            clientNote: {
+            thoi_han : {
+                type: DataTypes.DATE,
+            },
+            ngay_thanh_toan_phi : {
+                type: DataTypes.DATE,
+            },
+            tien_gom_VAT : {
+                type: DataTypes.DECIMAL,
+            },
+            point: {
+                type: DataTypes.INTEGER,
+            },
+            note: {
                 type: DataTypes.STRING,
             },
-            show: {
-                type: DataTypes.BOOLEAN,
-                defaultValue: true,
-            }
         },
         {
-            schema: "public",
+            schema: 'public',
+            tableName: 'order',
             timestamps: false,
         }
     );
+
     return Order;
 };

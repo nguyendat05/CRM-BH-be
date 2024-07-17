@@ -8,7 +8,7 @@ import sheetRouter from "./src/routes/sheetRouter.js";
 import hqRouter from "./src/routes/hqRouter.js";
 import zaloRouter from "./src/routes/zaloRouter.js";
 import githubWebhook from "./src/middleware/githubWebhook.js";
-import { connection, changeSchema } from "./src/postgres/postgres.js";
+import { connection, } from "./src/postgres/postgres.js";
 
 dotenv.config();
 
@@ -41,20 +41,10 @@ app.use("/api/sheet", sheetRouter);
 app.use("/api/hq", hqRouter);
 app.use("/api/zalo", zaloRouter);
 
-app.post('/change-schema', async (req, res) => {
-  const { newSchema } = req.body;
-
-  if (!newSchema) {
-    return res.status(400).json({ error: 'Invalid schema selection' });
-  }
-
-  try {
-    await changeSchema(newSchema);
-    res.json({ message: `Schema updated to ${newSchema}` });
-  } catch (error) {
-    res.status(500).json({ error: 'Failed to update schema' });
-  }
+app.post("/git/update", githubWebhook, (req, res) => {
+  return res.status(200).send("Webhook received");
 });
+
 
 app.listen(PORT, async () => {
   try {
